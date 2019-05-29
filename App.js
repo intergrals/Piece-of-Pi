@@ -8,15 +8,17 @@ import {
   Text,
   View
 } from "react-native";
+import PiPage from "./src/PiPage";
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.androidStatusBar} />
-        <View style={styles.container}>
+        {/* <View style={styles.container}>
           <Text>Hello World</Text>
-        </View>
+        </View> */}
+        <PiPage />
       </View>
     );
   }
