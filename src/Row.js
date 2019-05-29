@@ -6,8 +6,8 @@ export default class Row extends React.Component {
   render() {
     return (
       <View style={styles.row}>
-        <Block getChunk={this.props.getChunk} />
-        <Block getChunk={this.props.getChunk} />
+        <Block blockDigits={this.props.rowDigits[0]} />
+        <Block blockDigits={this.props.rowDigits[1]} />
       </View>
     );
   }

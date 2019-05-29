@@ -6,8 +6,8 @@ export default class Block extends React.Component {
   render() {
     return (
       <View style={styles.block}>
-        <Chunk getChunk={this.props.getChunk} />
-        <Chunk getChunk={this.props.getChunk} />
+        <Chunk digits={this.props.blockDigits[0]} />
+        <Chunk digits={this.props.blockDigits[1]} />
       </View>
     );
   }

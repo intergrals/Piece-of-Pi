@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Alert,
   FlatList,
   Platform,
   StatusBar,
@@ -12,13 +13,13 @@ export default class PiPage extends React.Component {
   render() {
     return (
       <FlatList
-        data={[{ key: "1" }, { key: "2" }]}
-        renderItem={({ item }) => <Row getChunk={this.props.getChunk} />}
+        data={this.props.piObj}
+        renderItem={({ item }) => <Row rowDigits={item.digits} />}
       />
-      //   <ScrollView style={styles.container}>
-      //     <Row getChunk={this.props.getChunk} />
-      //     <Row getChunk={this.props.getChunk} />
-      //   </ScrollView>
+      // <ScrollView style={styles.container}>
+      //   <Row getChunk={this.props.getChunk} />
+      //   <Row getChunk={this.props.getChunk} />
+      // </ScrollView>
     );
   }
 }

@@ -5,7 +5,6 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
-  Text,
   View
 } from "react-native";
 import PiPage from "./src/PiPage";
@@ -14,9 +13,44 @@ import strings from "./res/strings";
 export default class App extends React.Component {
   state = {
     pi: strings.pi.slice(0, 1000),
+    piObj: [],
     chunkSize: 4,
     offset: 0,
     count: 0
+  };
+
+  componentDidMount() {
+    this.init();
+  }
+
+  init = () => {
+    // startOffset = this.state.offset === 0 ? 0: this.state.offset + 1;
+    // piCopy = this.state.pi.slice(startOffset);
+    piObj = [];
+    // turn pi into obj chunks
+    while (1) {
+      rowDigits = [];
+      for (i = 0; i < 2; i++) {
+        blockDigits = [];
+        for (j = 0; j < 2; j++) {
+          piChunk = this.getChunk();
+          if (piChunk === "") break;
+          blockDigits.push(piChunk);
+        }
+        if (piChunk === "") break;
+        rowDigits.push(blockDigits);
+      }
+      if (piChunk === "") break;
+
+      piObj.push({
+        key: this.state.count.toString(),
+        digits: rowDigits
+      });
+    }
+
+    this.setState({
+      piObj
+    });
   };
 
   // reset count
@@ -28,22 +62,21 @@ export default class App extends React.Component {
 
   // get the next chunk of pi
   getChunk = () => {
-    // second digit is '1', not '.'
-    piOffset = this.state.offset === 0 ? 0 : this.state.offset + 1;
-    // get an additional character if offset is 0 and first time fetching
-    getAdditional = this.state.offset === 0 && this.state.count === 0 ? 1 : 0;
-    start = piOffset + this.state.chunkSize * this.state.count++;
-    return this.state.pi.slice(
-      start,
-      start + this.state.chunkSize + getAdditional
-    );
+    // special case if getting 3.14... block (get additional digit to compensate for '.')
+    if (this.state.count === 0 && this.state.offset === 0) {
+      this.state.count++;
+      return this.state.pi.slice(0, this.state.chunkSize + 1);
+    }
+
+    start = 1 + this.state.chunkSize * this.state.count++;
+    return this.state.pi.slice(start, start + this.state.chunkSize);
   };
 
   render() {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.androidStatusBar} />
-        <PiPage getChunk={this.getChunk} style={styles.container} />
+        <PiPage style={styles.container} piObj={this.state.piObj} />
       </View>
     );
   }

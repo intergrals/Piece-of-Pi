@@ -3,7 +3,7 @@ import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
 
 export default class Chunk extends React.Component {
   render() {
-    return <Text style={styles.chunk}>{this.props.getChunk()}</Text>;
+    return <Text style={styles.chunk}>{this.props.digits}</Text>;
   }
 }
 
