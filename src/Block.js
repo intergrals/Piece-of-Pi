@@ -15,7 +15,6 @@ export default class Block extends React.Component {
 
 const styles = StyleSheet.create({
   block: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

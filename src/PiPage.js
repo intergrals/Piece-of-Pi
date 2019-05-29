@@ -1,14 +1,24 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import Block from "./Block";
-import Chunk from "./Chunk";
+import {
+  FlatList,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  ScrollView
+} from "react-native";
+import Row from "./Row";
 
 export default class PiPage extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Block getChunk={this.props.getChunk} />
-      </View>
+      <FlatList
+        data={[{ key: "1" }, { key: "2" }]}
+        renderItem={({ item }) => <Row getChunk={this.props.getChunk} />}
+      />
+      //   <ScrollView style={styles.container}>
+      //     <Row getChunk={this.props.getChunk} />
+      //     <Row getChunk={this.props.getChunk} />
+      //   </ScrollView>
     );
   }
 }
@@ -17,9 +27,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     //paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: "column"
+    // alignItems: "center",
+    // justifyContent: "flex-start"
   }
 });
