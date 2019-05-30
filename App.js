@@ -8,6 +8,7 @@ import {
   View
 } from "react-native";
 import PiPage from "./src/PiPage";
+import Settings from "./src/Settings.js";
 import strings from "./res/strings";
 
 export default class App extends React.Component {
@@ -76,7 +77,8 @@ export default class App extends React.Component {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.androidStatusBar} />
-        <PiPage style={styles.container} piObj={this.state.piObj} />
+        <Settings />
+        {/* <PiPage style={styles.container} piObj={this.state.piObj} /> */}
       </View>
     );
   }
