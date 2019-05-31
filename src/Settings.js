@@ -20,12 +20,22 @@ export default class Settings extends React.Component {
       rowHasChanged: (r1, r2) => r1.name !== r2.name
     });
     this.state = {
-      number: "pi",
+      number: this.props.navigation.state.params.number,
       offset:
-        this.props.offset === 0 ? "1" : (this.props.offset + 1).toString(),
-      startAtTenths: false,
+        this.props.navigation.state.params.offset === 0
+          ? "1"
+          : (this.props.navigation.state.params.offset + 1).toString(),
+      startAtTenths: this.props.navigation.state.params.startAtTenths,
       dataSource: ds.cloneWithRows(require("../res/options.json"))
     };
+  }
+
+  componentWillUnmount() {
+    this.props.navigation.state.params.updateSettings(
+      parseInt(this.state.offset - 1),
+      this.state.startAtTenths,
+      this.state.number
+    );
   }
 
   static navigationOptions = {
@@ -103,14 +113,8 @@ export default class Settings extends React.Component {
         <Text style={styles.title}>Settings</Text>
         <Button
           title={"Back"}
-          onPress={() => {
-            this.props.updateSettings(
-              parseInt(this.state.offset - 1),
-              this.state.startAtTenths,
-              this.state.number
-            );
-            this.props.navigation.goBack();
-          }}
+          color="green"
+          onPress={() => this.props.navigation.goBack()}
         />
         <View style={{ height: 20 }} />
         {this.numberPicker()}
@@ -125,6 +129,7 @@ export default class Settings extends React.Component {
 const styles = StyleSheet.create({
   settingsContainer: {
     flex: 1,
+    backgroundColor: "gray",
     flexDirection: "column",
     paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
   },
@@ -159,6 +164,7 @@ const styles = StyleSheet.create({
   textInput: {
     borderWidth: 2,
     borderRadius: 5,
+    backgroundColor: "white",
     textAlign: "center",
     width: 50
   }

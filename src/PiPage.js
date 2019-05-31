@@ -1,11 +1,10 @@
 import React from "react";
 import {
-  Alert,
   FlatList,
-  Platform,
-  StatusBar,
   StyleSheet,
-  ScrollView
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
 import Row from "./Row";
 
@@ -16,14 +15,18 @@ export default class PiPage extends React.Component {
 
   render() {
     return (
-      <FlatList
-        data={this.props.piObj}
-        renderItem={({ item }) => <Row rowDigits={item.digits} />}
-      />
-      // <ScrollView style={styles.container}>
-      //   <Row getChunk={this.props.getChunk} />
-      //   <Row getChunk={this.props.getChunk} />
-      // </ScrollView>
+      <View style={styles.container}>
+        <FlatList
+          data={this.props.navigation.state.params.piObj}
+          renderItem={({ item }) => <Row rowDigits={item.digits} />}
+        />
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          onPress={() => this.props.navigation.goBack()}
+        >
+          <Text style={styles.buttonText}>BACK</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -31,9 +34,17 @@ export default class PiPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
-    flexDirection: "column"
-    // alignItems: "center",
-    // justifyContent: "flex-start"
+    backgroundColor: "gray"
+  },
+  buttonStyle: {
+    backgroundColor: "black",
+    alignItems: "center",
+    padding: 10,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold"
   }
 });

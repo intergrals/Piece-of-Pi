@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     fontSize: 24,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    color: "white"
   }
 });
