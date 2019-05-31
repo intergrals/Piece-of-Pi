@@ -24,6 +24,12 @@ export default class App extends React.Component {
     this.init();
   }
 
+  updateOffset = offset => {
+    this.setState({
+      offset
+    });
+  };
+
   init = () => {
     // startOffset = this.state.offset === 0 ? 0: this.state.offset + 1;
     // piCopy = this.state.pi.slice(startOffset);
@@ -77,7 +83,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.androidStatusBar} />
-        <Settings />
+        <Settings updateOffset={this.updateOffset} offset={this.state.offset} />
         {/* <PiPage style={styles.container} piObj={this.state.piObj} /> */}
       </View>
     );
