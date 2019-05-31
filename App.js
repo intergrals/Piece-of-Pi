@@ -7,16 +7,33 @@ import {
   StyleSheet,
   View
 } from "react-native";
+import { createAppContainer, createStackNavigator } from "react-navigation";
+import HomeScreen from "./src/HomeScreen";
 import PiPage from "./src/PiPage";
 import Settings from "./src/Settings.js";
 import strings from "./res/strings";
 
+const AppNavigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Settings: Settings,
+    PiPage: PiPage
+  },
+  {
+    initialRouteName: "Home"
+  }
+);
+
+const AppContainer = createAppContainer(AppNavigator);
+
 export default class App extends React.Component {
   state = {
+    number: "pi",
     pi: strings.pi.slice(0, 1000),
     piObj: [],
     chunkSize: 4,
     offset: 0,
+    startAtTenths: false,
     count: 0
   };
 
@@ -24,9 +41,11 @@ export default class App extends React.Component {
     this.init();
   }
 
-  updateOffset = offset => {
+  updateSettings = (offset, startAtTenths, number) => {
     this.setState({
-      offset
+      offset,
+      startAtTenths,
+      number
     });
   };
 
@@ -83,7 +102,13 @@ export default class App extends React.Component {
     return (
       <View style={styles.rootContainer}>
         <View style={styles.androidStatusBar} />
-        <Settings updateOffset={this.updateOffset} offset={this.state.offset} />
+        <AppContainer />
+        {/* <Settings
+          updateSettings={this.updateSettings}
+          number={this.state.number}
+          offset={this.state.offset}
+          startAtTenths={this.state.startAtTenths}
+        /> */}
         {/* <PiPage style={styles.container} piObj={this.state.piObj} /> */}
       </View>
     );

@@ -10,6 +10,10 @@ import {
 import Row from "./Row";
 
 export default class PiPage extends React.Component {
+  static navigationOptions = {
+    title: "PiPage"
+  };
+
   render() {
     return (
       <FlatList

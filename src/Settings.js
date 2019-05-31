@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  Alert,
   Button,
-  Image,
   ListView,
   Picker,
   Platform,
-  Switch,
+  StatusBar,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   View
 } from "react-native";
+import { createAppContainer, createStackNavigator } from "react-navigation";
 
 export default class Settings extends React.Component {
   constructor(props) {
@@ -21,11 +21,16 @@ export default class Settings extends React.Component {
     });
     this.state = {
       number: "pi",
-      startAt: this.props.offset === 0 ? "1" : parseInt(this.props.offset),
-      beginAt3: false,
+      offset:
+        this.props.offset === 0 ? "1" : (this.props.offset + 1).toString(),
+      startAtTenths: false,
       dataSource: ds.cloneWithRows(require("../res/options.json"))
     };
   }
+
+  static navigationOptions = {
+    title: "Settings"
+  };
 
   numberPicker() {
     return (
@@ -56,7 +61,7 @@ export default class Settings extends React.Component {
         <TextInput
           style={styles.textInput}
           keyboardType="numeric"
-          value={this.state.startAt}
+          value={this.state.offset}
           maxLength={3}
           onChangeText={text => {
             numText = text.replace(/[^0-9]/g, "");
@@ -64,7 +69,7 @@ export default class Settings extends React.Component {
               numText = numText.slice(1);
             }
             this.setState({
-              startAt: numText
+              offset: numText
             });
           }}
         />
@@ -79,8 +84,8 @@ export default class Settings extends React.Component {
         <View style={{ flexDirection: "row" }}>
           <Text>3</Text>
           <Switch
-            value={this.state.beginAt3}
-            onValueChange={beginAt3 => this.setState({ beginAt3 })}
+            value={this.state.startAtTenths}
+            onValueChange={startAtTenths => this.setState({ startAtTenths })}
           />
           <Text>1</Text>
         </View>
@@ -88,10 +93,26 @@ export default class Settings extends React.Component {
     );
   }
 
+  printExample() {
+    return console.log("a");
+  }
+
   render() {
     return (
       <View style={styles.settingsContainer}>
         <Text style={styles.title}>Settings</Text>
+        <Button
+          title={"Back"}
+          onPress={() => {
+            this.props.updateSettings(
+              parseInt(this.state.offset - 1),
+              this.state.startAtTenths,
+              this.state.number
+            );
+            this.props.navigation.goBack();
+          }}
+        />
+        <View style={{ height: 20 }} />
         {this.numberPicker()}
         <View style={styles.hRule} />
         {this.startAtToggle()}
@@ -104,12 +125,13 @@ export default class Settings extends React.Component {
 const styles = StyleSheet.create({
   settingsContainer: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
+    paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
   },
   title: {
     fontSize: 30,
     paddingTop: 10,
-    paddingBottom: 30,
+    paddingBottom: 10,
     fontWeight: "bold",
     alignSelf: "center",
     justifyContent: "center"
