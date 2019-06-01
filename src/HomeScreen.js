@@ -23,16 +23,21 @@ export default class HomeScreen extends React.Component {
   }
 
   updateSettings = (offset, startAtTenths, number) => {
-    this.setState({
-      offset,
-      startAtTenths,
-      number
-    });
+    this.setState(
+      {
+        offset,
+        startAtTenths,
+        number,
+        pi: strings[number].slice(0, 1000)
+      },
+      () => {
+        this.reset();
+        this.init();
+      }
+    );
   };
 
   init = () => {
-    // startOffset = this.state.offset === 0 ? 0: this.state.offset + 1;
-    // piCopy = this.state.pi.slice(startOffset);
     piObj = [];
     // turn pi into obj chunks
     while (1) {
@@ -69,13 +74,23 @@ export default class HomeScreen extends React.Component {
 
   // get the next chunk of pi
   getChunk = () => {
+    // Start this far in pi
+    offset = this.state.offset === 0 ? 0 : this.state.offset;
+    if (this.state.startAtTenths) offset += 2;
+
     // special case if getting 3.14... block (get additional digit to compensate for '.')
     if (this.state.count === 0 && this.state.offset === 0) {
       this.state.count++;
-      return this.state.pi.slice(0, this.state.chunkSize + 1);
+      startAtTenths = this.state.startAtTenths ? 0 : 1;
+      return this.state.pi.slice(
+        offset,
+        this.state.chunkSize + offset + startAtTenths
+      );
     }
 
-    start = 1 + this.state.chunkSize * this.state.count++;
+    startAtTenths = this.state.startAtTenths ? 0 : 1;
+
+    start = this.state.chunkSize * this.state.count++ + offset + startAtTenths;
     return this.state.pi.slice(start, start + this.state.chunkSize);
   };
 

@@ -57,7 +57,7 @@ export default class Settings extends React.Component {
           }
         >
           <Picker.Item key="pi" label="pi" value="pi" />
-          <Picker.Item key="tao" label="tao" value="tao" />
+          <Picker.Item key="tau" label="tau" value="tau" />
           <Picker.Item key="e" label="e" value="e" />
         </Picker>
       </View>
