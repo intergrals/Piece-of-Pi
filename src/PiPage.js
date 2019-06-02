@@ -18,6 +18,7 @@ export default class PiPage extends React.Component {
       <View style={styles.container}>
         <FlatList
           data={this.props.navigation.state.params.piObj}
+          style={{ paddingTop: "20%" }}
           renderItem={({ item }) => <Row rowDigits={item.digits} />}
         />
         <TouchableOpacity
@@ -34,7 +35,7 @@ export default class PiPage extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "gray"
+    backgroundColor: "#505050"
   },
   buttonStyle: {
     backgroundColor: "black",

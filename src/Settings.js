@@ -21,10 +21,7 @@ export default class Settings extends React.Component {
     });
     this.state = {
       number: this.props.navigation.state.params.number,
-      offset:
-        this.props.navigation.state.params.offset === 0
-          ? "1"
-          : (this.props.navigation.state.params.offset + 1).toString(),
+      offset: (this.props.navigation.state.params.offset + 1).toString(),
       startAtTenths: this.props.navigation.state.params.startAtTenths,
       dataSource: ds.cloneWithRows(require("../res/options.json"))
     };
@@ -32,7 +29,7 @@ export default class Settings extends React.Component {
 
   componentWillUnmount() {
     this.props.navigation.state.params.updateSettings(
-      parseInt(this.state.offset - 1),
+      parseInt(this.state.offset) - 1 || 0,
       this.state.startAtTenths,
       this.state.number
     );
@@ -113,7 +110,7 @@ export default class Settings extends React.Component {
         <Text style={styles.title}>Settings</Text>
         <Button
           title={"Back"}
-          color="green"
+          color="black"
           onPress={() => this.props.navigation.goBack()}
         />
         <View style={{ height: 20 }} />
@@ -129,7 +126,7 @@ export default class Settings extends React.Component {
 const styles = StyleSheet.create({
   settingsContainer: {
     flex: 1,
-    backgroundColor: "gray",
+    backgroundColor: "darkgray",
     flexDirection: "column",
     paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight
   },

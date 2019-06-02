@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { Image, TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import strings from "../res/strings";
 
@@ -31,13 +31,13 @@ export default class HomeScreen extends React.Component {
         pi: strings[number].slice(0, 1000)
       },
       () => {
-        this.reset();
         this.init();
       }
     );
   };
 
   init = () => {
+    count = 0;
     piObj = [];
     // turn pi into obj chunks
     while (1) {
@@ -45,7 +45,7 @@ export default class HomeScreen extends React.Component {
       for (i = 0; i < 2; i++) {
         blockDigits = [];
         for (j = 0; j < 2; j++) {
-          piChunk = this.getChunk();
+          piChunk = this.getChunk(count++);
           if (piChunk === "") break;
           blockDigits.push(piChunk);
         }
@@ -55,7 +55,7 @@ export default class HomeScreen extends React.Component {
       if (piChunk === "") break;
 
       piObj.push({
-        key: this.state.count.toString(),
+        key: count.toString(),
         digits: rowDigits
       });
     }
@@ -65,22 +65,14 @@ export default class HomeScreen extends React.Component {
     });
   };
 
-  // reset count
-  reset = () => {
-    this.setState({
-      count: 0
-    });
-  };
-
   // get the next chunk of pi
-  getChunk = () => {
+  getChunk = count => {
     // Start this far in pi
     offset = this.state.offset === 0 ? 0 : this.state.offset;
     if (this.state.startAtTenths) offset += 2;
 
     // special case if getting 3.14... block (get additional digit to compensate for '.')
-    if (this.state.count === 0 && this.state.offset === 0) {
-      this.state.count++;
+    if (count === 0 && this.state.offset === 0) {
       startAtTenths = this.state.startAtTenths ? 0 : 1;
       return this.state.pi.slice(
         offset,
@@ -90,13 +82,16 @@ export default class HomeScreen extends React.Component {
 
     startAtTenths = this.state.startAtTenths ? 0 : 1;
 
-    start = this.state.chunkSize * this.state.count++ + offset + startAtTenths;
+    start = this.state.chunkSize * count + offset + startAtTenths;
     return this.state.pi.slice(start, start + this.state.chunkSize);
   };
 
   render() {
     return (
-      <View style={{ backgroundColor: "gray", flex: 1 }}>
+      <View style={styles.rootContainer}>
+        {/* Logo */}
+        <Image style={styles.logo} source={require("../assets/icon.png")} />
+
         {/* Start Button */}
         <TouchableOpacity
           style={styles.buttonStyle}
@@ -129,12 +124,21 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "#505050"
+  },
+  logo: {
+    // flex: 1,
+    marginLeft: "20%",
+    marginRight: "25%",
+    width: null,
+    height: "50%",
+    resizeMode: "contain"
   },
   buttonStyle: {
     // width: 100,
     // height: 50,
-    backgroundColor: "aqua",
+    backgroundColor: "white",
     alignItems: "center",
     padding: 10,
     marginTop: "10%",
