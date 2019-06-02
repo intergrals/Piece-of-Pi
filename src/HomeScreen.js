@@ -1,6 +1,12 @@
 import React from "react";
-import { Image, TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import { createAppContainer, createStackNavigator } from "react-navigation";
+import {
+  AsyncStorage,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 import strings from "../res/strings";
 
 export default class HomeScreen extends React.Component {
@@ -8,19 +14,54 @@ export default class HomeScreen extends React.Component {
     title: "Home"
   };
 
-  state = {
-    number: "pi",
-    pi: strings.pi.slice(0, 1000),
-    piObj: [],
-    chunkSize: 4,
-    offset: 0,
-    startAtTenths: false,
-    count: 0
+  constructor() {
+    super();
+    this.state = {
+      number: "pi",
+      pi: strings.pi.slice(0, 1000),
+      piObj: [],
+      chunkSize: 4,
+      offset: 0,
+      startAtTenths: false,
+      count: 0
+    };
+  }
+
+  setData = async () => {
+    try {
+      number = (await AsyncStorage.getItem("number")) || "pi";
+      offset = (await AsyncStorage.getItem("offset")) || 0;
+      startAtTenths = (await AsyncStorage.getItem("startAtTenths")) || false;
+
+      this.setState({
+        number,
+        offset,
+        startAtTenths
+      });
+    } catch {}
   };
+
+  componentWillMount() {
+    this.setData();
+  }
 
   componentDidMount() {
     this.init();
+    this.setState({
+      pi: strings[this.state.number].slice(0, 1000)
+    });
   }
+
+  // store settings in AsyncStorage
+  storeData = async () => {
+    try {
+      await AsyncStorage.multiSet([
+        ["number", this.state.number],
+        ["offset", this.state.offset],
+        ["startAtTenths", this.state.startAtTenths]
+      ]);
+    } catch {}
+  };
 
   updateSettings = (offset, startAtTenths, number) => {
     this.setState(
@@ -31,6 +72,7 @@ export default class HomeScreen extends React.Component {
         pi: strings[number].slice(0, 1000)
       },
       () => {
+        this.storeData();
         this.init();
       }
     );
