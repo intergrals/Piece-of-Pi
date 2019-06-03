@@ -23,7 +23,7 @@
       "bundleIdentifier": "com.interger.pieceofpi"
     },
     "android": {
-      "bundleIdentifier": "com.interger.pieceofpi"
+      "package": "com.interger.pieceofpi"
     },
     "androidStatusBar": {
       "backgroundColor": "#000000"
