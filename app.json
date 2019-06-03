@@ -19,7 +19,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.interger.pieceofpi"
+    },
+    "android": {
+      "bundleIdentifier": "com.interger.pieceofpi"
     },
     "androidStatusBar": {
       "backgroundColor": "#000000"
