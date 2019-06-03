@@ -2,6 +2,7 @@
   "expo": {
     "name": "Piece of Pi",
     "slug": "piece-of-pi",
+    "description": "Want to memorize mathematical constants like pi? This app breaks them up into smaller groups so you can memorize the digits bit by bit. Remember, it's always better to take your time!",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": ["ios", "android"],
