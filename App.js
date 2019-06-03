@@ -30,7 +30,6 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.rootContainer}>
-        <View style={styles.androidStatusBar} />
         <AppContainer />
         {/* <PiPage style={styles.container} piObj={this.state.piObj} /> */}
       </View>
@@ -39,16 +38,11 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  androidStatusBar: {
-    backgroundColor: "black",
-    height: StatusBar.currentHeight
-  },
   rootContainer: {
     flex: 1
   },
   container: {
     flex: 1,
-    paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
     backgroundColor: "#ff0000",
     flexDirection: "row",
     alignItems: "center",
