@@ -1,6 +1,7 @@
 import React from "react";
 import {
   AsyncStorage,
+  Dimensions,
   Image,
   TouchableOpacity,
   StyleSheet,
@@ -132,7 +133,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.rootContainer}>
         {/* Logo */}
-        <Image style={styles.logo} source={require("../assets/icon.png")} />
+        <Image style={styles.icon} source={require("../assets/icon.png")} />
 
         {/* Start Button */}
         <TouchableOpacity
@@ -159,6 +160,7 @@ export default class HomeScreen extends React.Component {
         >
           <Text style={styles.buttonText}>SETTINGS</Text>
         </TouchableOpacity>
+        <Image style={styles.logo} source={require("../assets/logo.png")} />
       </View>
     );
   }
@@ -169,13 +171,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#505050"
   },
-  logo: {
+  icon: {
     // flex: 1,
     marginLeft: "20%",
     marginRight: "25%",
     width: null,
     height: "50%",
     resizeMode: "contain"
+  },
+  logo: {
+    position: "absolute",
+    bottom: Dimensions.get("window").width * 0.05,
+    right: Dimensions.get("window").width * 0.05,
+    width: Dimensions.get("window").width * 0.15,
+    height: Dimensions.get("window").width * 0.15 * (118 / 150)
   },
   buttonStyle: {
     // width: 100,
