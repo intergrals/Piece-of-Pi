@@ -89,12 +89,24 @@ export default class Settings extends React.Component {
       <View style={styles.rowContainer}>
         <Text style={styles.subtitle}>First digit: </Text>
         <View style={{ flexDirection: "row" }}>
-          <Text>3</Text>
+          <Text>
+            {this.state.number === "pi"
+              ? 3
+              : this.state.number === "tau"
+              ? 6
+              : 2}
+          </Text>
           <Switch
             value={this.state.startAtTenths}
             onValueChange={startAtTenths => this.setState({ startAtTenths })}
           />
-          <Text>1</Text>
+          <Text>
+            {this.state.number === "pi"
+              ? 1
+              : this.state.number === "tau"
+              ? 2
+              : 7}
+          </Text>
         </View>
       </View>
     );
