@@ -31,26 +31,24 @@ export default class HomeScreen extends React.Component {
   setData = async () => {
     try {
       number = (await AsyncStorage.getItem("number")) || "pi";
-      offset = (await AsyncStorage.getItem("offset")) || 0;
-      startAtTenths = (await AsyncStorage.getItem("startAtTenths")) || false;
+      offset = parseInt(await AsyncStorage.getItem("offset")) || 0;
+      startAtTenths =
+        (await AsyncStorage.getItem("startAtTenths")) == "true" || false;
 
       this.setState({
         number,
         offset,
         startAtTenths
       });
-    } catch {}
+    } catch (e) {}
   };
 
-  componentWillMount() {
-    this.setData();
-  }
-
   componentDidMount() {
-    this.init();
+    this.setData();
     this.setState({
       pi: strings[this.state.number].slice(0, 1000)
     });
+    this.init();
   }
 
   // store settings in AsyncStorage
@@ -58,10 +56,10 @@ export default class HomeScreen extends React.Component {
     try {
       await AsyncStorage.multiSet([
         ["number", this.state.number],
-        ["offset", this.state.offset],
-        ["startAtTenths", this.state.startAtTenths]
+        ["offset", this.state.offset.toString()],
+        ["startAtTenths", this.state.startAtTenths.toString()]
       ]);
-    } catch {}
+    } catch (e) {}
   };
 
   updateSettings = (offset, startAtTenths, number) => {
