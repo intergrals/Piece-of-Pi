@@ -30,25 +30,29 @@ export default class HomeScreen extends React.Component {
 
   setData = async () => {
     try {
-      number = (await AsyncStorage.getItem("number")) || "pi";
-      offset = parseInt(await AsyncStorage.getItem("offset")) || 0;
-      startAtTenths =
-        (await AsyncStorage.getItem("startAtTenths")) == "true" || false;
-
-      this.setState({
-        number,
-        offset,
-        startAtTenths
-      });
+      this.setState(
+        {
+          number: (await AsyncStorage.getItem("number")) || "pi",
+          offset: parseInt(await AsyncStorage.getItem("offset")) || 0,
+          startAtTenths:
+            (await AsyncStorage.getItem("startAtTenths")) == "true" || false
+        },
+        () => {
+          this.setState(
+            {
+              pi: strings[this.state.number].slice(0, 1000)
+            },
+            () => {
+              this.init();
+            }
+          );
+        }
+      );
     } catch (e) {}
   };
 
   componentDidMount() {
     this.setData();
-    this.setState({
-      pi: strings[this.state.number].slice(0, 1000)
-    });
-    this.init();
   }
 
   // store settings in AsyncStorage
