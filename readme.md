@@ -4,4 +4,4 @@ Android app for breaking pi into small groups to allow easier memorization. Buil
 
 Users can set starting point. They can also choose between pi, tau, and e.
 
-![example screenshot](https://raw.githubusercontent.com/LeoHLPan/Piece-of-Pi/master/images/PoP_pi_screen.jpg)
+<img src="./images/PoP_pi_screen.jpg" alt="example screenshot" height=600 />
